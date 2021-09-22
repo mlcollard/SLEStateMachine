@@ -13,6 +13,7 @@
 struct State {
     std::map<char, int> transitions;
     bool final = false;
+    void (*action)(std::string_view) = nullptr;
 };
 
 const std::vector<State> aTable = {
@@ -30,6 +31,11 @@ const std::vector<State> aPlusTable = {
     { { {'a', 1} }, true },
 };
 
+const std::vector<State> aOrBPlusTable = {
+    { { {'a', 1}, {'b', 1} }, false, [](std::string_view s) { std::cout << "HI, I am state q0 but not done yet\n"; } },
+    { { {'a', 1}, {'b', 1} }, true,  [](std::string_view s) { std::cout << "I am done\n";} },
+};
+
 int main(int argc, char* argv[]) {
 
     // Require input string to match against
@@ -41,7 +47,7 @@ int main(int argc, char* argv[]) {
 
     // Run FSM
     int q = 0;
-    const auto& table = aPlusTable;
+    const auto& table = aOrBPlusTable;
     std::string match;
     for (auto c : s) {
 
@@ -53,6 +59,10 @@ int main(int argc, char* argv[]) {
         match += c;
 
         q = pos->second;
+
+        auto curAction = table[q].action;
+        if (curAction)
+            curAction(match);
     }
 
     // verify in final state
