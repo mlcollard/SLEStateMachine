@@ -31,6 +31,7 @@ int main(int argc, char* argv[]) {
 
     // Run FSM
     int q = 0;
+    std::string match;
     for (auto c : s) {
 
         // find the transition for this character
@@ -38,12 +39,16 @@ int main(int argc, char* argv[]) {
         if (pos == aTable[q].transitions.end())
             return 1;
 
+        match += c;
+
         q = pos->second;
     }
 
     // verify in final state
     if (!aTable[q].final)
         return 1;
+
+    std::cout << match << '\n';
 
     return 0;
 }
