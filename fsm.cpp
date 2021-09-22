@@ -20,6 +20,11 @@ const std::vector<State> aTable = {
     { { }, true },
 };
 
+const std::vector<State> aStarTable = {
+    { { {'a', 1} }, true },
+    { { {'a', 1} }, true },
+};
+
 int main(int argc, char* argv[]) {
 
     // Require input string to match against
@@ -31,12 +36,13 @@ int main(int argc, char* argv[]) {
 
     // Run FSM
     int q = 0;
+    const auto& table = aStarTable;
     std::string match;
     for (auto c : s) {
 
         // find the transition for this character
-        auto pos = aTable[q].transitions.find(c);
-        if (pos == aTable[q].transitions.end())
+        auto pos = table[q].transitions.find(c);
+        if (pos == table[q].transitions.end())
             return 1;
 
         match += c;
@@ -45,7 +51,7 @@ int main(int argc, char* argv[]) {
     }
 
     // verify in final state
-    if (!aTable[q].final)
+    if (!table[q].final)
         return 1;
 
     std::cout << match << '\n';
