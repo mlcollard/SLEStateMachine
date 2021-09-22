@@ -26,8 +26,19 @@ int main(int argc, char* argv[]) {
         std::cerr << "Usage: " << argv[0] << " <input_string>\n";
         return 1;
     }
+    std::string s = argv[1];
 
     // Run FSM
+    int q = 0;
+    for (auto c : s) {
+
+        // find the transition for this character
+        auto pos = aTable[q].transitions.find(c);
+        if (pos == aTable[q].transitions.end())
+            return 1;
+
+        q = pos->second;
+    }
 
     return 0;
 }
