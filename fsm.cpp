@@ -12,11 +12,12 @@
 
 struct State {
     std::map<char, int> transitions;
+    bool final = false;
 };
 
 const std::vector<State> aTable = {
-    { { {'a', 1} } },
-    { { } },
+    { { {'a', 1} }, false },
+    { { }, true },
 };
 
 int main(int argc, char* argv[]) {
@@ -39,6 +40,10 @@ int main(int argc, char* argv[]) {
 
         q = pos->second;
     }
+
+    // verify in final state
+    if (!aTable[q].final)
+        return 1;
 
     return 0;
 }
