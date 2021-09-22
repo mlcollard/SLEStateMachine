@@ -25,6 +25,11 @@ const std::vector<State> aStarTable = {
     { { {'a', 1} }, true },
 };
 
+const std::vector<State> aPlusTable = {
+    { { {'a', 1} }, false },
+    { { {'a', 1} }, true },
+};
+
 int main(int argc, char* argv[]) {
 
     // Require input string to match against
@@ -36,7 +41,7 @@ int main(int argc, char* argv[]) {
 
     // Run FSM
     int q = 0;
-    const auto& table = aStarTable;
+    const auto& table = aPlusTable;
     std::string match;
     for (auto c : s) {
 
